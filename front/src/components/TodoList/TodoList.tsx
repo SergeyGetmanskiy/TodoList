@@ -16,8 +16,6 @@ function TodoList() {
   const [isNewTodo, setIsNewTodo] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  console.log(todos);
-
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsNewTodo(true);
@@ -30,21 +28,26 @@ function TodoList() {
     setSelectedTodo({name: '', description: '', status: ''});
   }
 
-  const editTodo = (formValues: TodoTypes) => {
-    const newTodo = formValues._id !== null ? formValues : {...formValues, _id: todos.length + 1};
-    setTodos(todos => todos.map((todo) => {
-      if(todo._id === newTodo._id ) {
-        return newTodo
+  const editTodo = (updatedTodo: TodoTypes) => {
+    api.updateTodo(updatedTodo)
+    .then((todo) => {
+      setTodos(todos => todos.map((item) => {
+        if(item._id === todo._id ) {
+          return todo
+        }
+        return item
+      }));
+      handleModalClose();
       }
-      return todo
-    }));
-    handleModalClose();
+    )
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   const addTodo = (newTodo: TodoTypes) => {
     api.postTodo(newTodo)
     .then((todo) => {
-      console.log(todo);
       setTodos([...todos, todo]);
       handleModalClose();
       }
@@ -55,7 +58,6 @@ function TodoList() {
   }
 
   const deleteTodo = (todoId: number) => {
-    console.log(todoId);
     api.deleteTodo(todoId)
     .then(() => {
       setTodos(todos => todos.filter((todo) => todo._id !== todoId));

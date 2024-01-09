@@ -1,8 +1,6 @@
 const Todo = require('../models/todo');
 
-const AuthError = require('../errors/AuthError');
 const BadRequestError = require('../errors/BadRequestError');
-const ForbiddenRequestError = require('../errors/ForbiddenRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.getTodos = (req, res, next) => {
