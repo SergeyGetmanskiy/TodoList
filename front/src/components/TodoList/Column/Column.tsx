@@ -2,19 +2,18 @@ import { Box, List, Card, Typography, Container, CardContent } from "@mui/materi
 
 import { TodoTypes } from "../../interfaces/TodoTypes";
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
-import EditModal from "../EditModal/EditModal";
-import { useState } from "react";
 
-export default function Column({ columnTitle, cards, setTodos }: { columnTitle: string, cards: TodoTypes[], setTodos: React.Dispatch<React.SetStateAction<TodoTypes[]>> }) {
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const [selectedCard, setSelectedCard] = useState<TodoTypes>(Object);
-
-  const columnColor = columnTitle === 'Todo' ? 'lightpink' : columnTitle === 'Done' ? 'lightgreen' : 'lightyellow';
+export default function Column({ columnTitle, columnColor, todos, setTodos, setSelectedTodo, setModalOpen }: {
+  columnTitle: string,
+  columnColor: string,
+  todos: TodoTypes[],
+  setTodos: React.Dispatch<React.SetStateAction<TodoTypes[]>>,
+  setSelectedTodo: React.Dispatch<React.SetStateAction<TodoTypes>>,
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+}) {
 
   const onEdit = (card: TodoTypes) => {
-    setSelectedCard(card);
+    setSelectedTodo(card);
     setModalOpen(true);
   }
 
@@ -28,7 +27,7 @@ export default function Column({ columnTitle, cards, setTodos }: { columnTitle: 
         <Typography variant='subtitle1' align='center'>{columnTitle}</Typography>
       </Box>
       <List sx={{ display: 'flex', flexDirection: 'column', gap: '20px', p: 0 }}>
-        {cards.map((card, index) => (
+        {todos.map((card, index) => (
           <Card key={card.name} elevation={4}>
             <Box sx={{position: 'relative' }}>
               <DropDownMenu onEdit={() => onEdit(card)} onDelete={() => onDelete(card)}/>
@@ -41,7 +40,6 @@ export default function Column({ columnTitle, cards, setTodos }: { columnTitle: 
           </Card>
         ))}
       </List>
-      <EditModal modalOpen={modalOpen} setModalOpen={setModalOpen} content={selectedCard} />
     </Container>
   )
 }
