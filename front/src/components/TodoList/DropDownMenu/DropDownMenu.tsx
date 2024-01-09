@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { useState } from 'react';
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -6,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 function DropDownMenu({onEdit, onDelete}: {onEdit: () => void, onDelete: () => void}) {
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
