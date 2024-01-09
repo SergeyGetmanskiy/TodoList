@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import { TextField, Stack, Button, MenuItem } from '@mui/material';
-import Modal from '@mui/material/Modal';
+import { Modal } from '@mui/material';
 
 import { statusList } from '../../../constants/constants';
 import { TodoTypes } from '../../interfaces/TodoTypes';
@@ -19,7 +19,7 @@ const style = {
   '& > :not(style)': { m: 1, width: '100%' }
 };
 
-function EditModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmit}: {
+function TodoModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmit}: {
   modalOpen: boolean,
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>,
   handleClose: () => void,
@@ -29,7 +29,7 @@ function EditModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmi
 
   const [formValues, setFormValues] = useState(initialValues);
 
-  const isSubmitbuttonActive = (formValues.name !== '' && formValues.status !== '') ? false : true;
+  const isSubmitbuttonActive = (formValues.name !== '' && formValues.description !== '' && formValues.status !== '') ? false : true;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -75,6 +75,7 @@ function EditModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmi
         value={formValues.description}
         multiline
         onChange={handleChange}
+        required
       />
       <TextField
         id="status"
@@ -99,4 +100,4 @@ function EditModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmi
   );
 }
 
-export default EditModal
+export default TodoModal

@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Grid, Paper, Typography, Stack, Button} from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import { initialTodos } from './Todos/Todos';
+import { api } from '../../utils/Api';
 import { statusList } from '../../constants/constants';
 import { TodoTypes } from '../interfaces/TodoTypes';
 import Column from './Column/Column';
-import EditModal from './EditModal/EditModal';
+import TodoModal from './Modal/Modal';
 
 
 function TodoList() {
 
-  const [todos, setTodos] = useState<TodoTypes[]>(initialTodos);
-  const [selectedTodo, setSelectedTodo] = useState<TodoTypes>({id: null, name: '', description: '', status: ''});
+  const [todos, setTodos] = useState<TodoTypes[]>([]);
+  const [selectedTodo, setSelectedTodo] = useState<TodoTypes>({name: '', description: '', status: ''});
   const [isNewTodo, setIsNewTodo] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -27,13 +27,13 @@ function TodoList() {
   const handleModalClose = () => {
     setModalOpen(false);
     setIsNewTodo(false);
-    setSelectedTodo({id: null, name: '', description: '', status: ''});
+    setSelectedTodo({name: '', description: '', status: ''});
   }
 
   const editTodo = (formValues: TodoTypes) => {
-    const newTodo = formValues.id !== null ? formValues : {...formValues, id: todos.length + 1};
+    const newTodo = formValues._id !== null ? formValues : {...formValues, _id: todos.length + 1};
     setTodos(todos => todos.map((todo) => {
-      if(todo.id === newTodo.id ) {
+      if(todo._id === newTodo._id ) {
         return newTodo
       }
       return todo
@@ -41,11 +41,41 @@ function TodoList() {
     handleModalClose();
   }
 
-  const addTodo = (formValues: TodoTypes) => {
-    const newTodo = formValues.id !== null ? formValues : {...formValues, id: todos.length + 1}
-    setTodos([...todos, newTodo]);
-    handleModalClose();
+  const addTodo = (newTodo: TodoTypes) => {
+    api.postTodo(newTodo)
+    .then((todo) => {
+      console.log(todo);
+      setTodos([...todos, todo]);
+      handleModalClose();
+      }
+    )
+    .catch((err) => {
+      console.log(err);
+    })
   }
+
+  const deleteTodo = (todoId: number) => {
+    console.log(todoId);
+    api.deleteTodo(todoId)
+    .then(() => {
+      setTodos(todos => todos.filter((todo) => todo._id !== todoId));
+      }
+    )
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  useEffect(() => {
+    api.getTodos()
+    .then((todos) => {
+      setTodos(todos);
+      }
+    )
+    .catch((err) => {
+      console.log(err);
+    })
+  }, [])
 
   return (
     <Box sx={{display: 'flex', height: '100vh', alignItems: 'flex-start', justifyContent: 'center'}}>
@@ -70,7 +100,8 @@ function TodoList() {
                   todos={filteredTodos}
                   setTodos={setTodos}
                   setSelectedTodo={setSelectedTodo}
-                  setModalOpen={setModalOpen}/>
+                  setModalOpen={setModalOpen}
+                  onDelete={deleteTodo}/>
               </Grid>
             )
           })
@@ -78,7 +109,7 @@ function TodoList() {
       </Grid>
       {
         modalOpen &&
-        (<EditModal
+        (<TodoModal
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           handleClose={handleModalClose}
