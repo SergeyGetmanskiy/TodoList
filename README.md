@@ -16,41 +16,41 @@
 Склонируй репозиторий
 
 ```bash
-  git clone https://github.com/SergeyGetmanskiy/TodoList.git
+git clone https://github.com/SergeyGetmanskiy/TodoList.git
 ```
 
 Перейди в папку бэкенда
 
 ```bash
-  cd /back
+cd \back
 ```
 
 Установи зависимости
 
 ```bash
-  npm install
+npm install
 ```
 
 Запусти сервер локально в режиме разработки на http://localhost:3001
 
 ```bash
-  npm run dev
+npm run dev
 ```
 
 Перейди в папку фронтенда
 
 ```bash
-  cd /front
+cd \front
 ```
 
 Установи зависимости
 
 ```bash
-  npm install
+npm install
 ```
 
 Запусти приложение локально на http://localhost:3000
 
 ```bash
-  npm start
+npm start
 ```
