@@ -56,7 +56,6 @@ function TodoModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmi
       <Box
       component="form"
       sx={style}
-      noValidate
       autoComplete="off"
       onSubmit={handleSubmit}
     >
@@ -67,6 +66,7 @@ function TodoModal({modalOpen, setModalOpen, handleClose, initialValues, onSubmi
         value={formValues.name}
         onChange={handleChange}
         required
+        inputProps={{minLength: 2, maxLength: 30}}
       />
       <TextField
         id="description"
