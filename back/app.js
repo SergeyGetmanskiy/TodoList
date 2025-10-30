@@ -41,7 +41,7 @@ app.use(requestLogger);
 
 app.use('/todos', require('./routes/todos'));
 
-app.use('*', (req, res, next) => {
+app.use(/(.*)/, (req, res, next) => {
   next(new NotFoundError('Страница не существует.'));
 });
 
