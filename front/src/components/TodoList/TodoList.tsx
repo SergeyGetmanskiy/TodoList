@@ -79,10 +79,12 @@ function TodoList() {
     })
   }, [])
 
+  console.log(todos)
+
   return (
     <Box sx={{display: 'flex', height: '100vh', alignItems: 'flex-start', justifyContent: 'center'}}>
-      <Grid container component={Paper} sx={{width: '800px'}}>
-        <Grid item xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px'}}>
+      <Grid container component={Paper} sx={{width: '800px', justifyContent: 'center'}}>
+        <Grid size={{ xs: 12 }} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px'}}>
           <Typography variant='h2' align='center'>Todos</Typography>
           <Stack direction="row" spacing={2}>
             <Button variant="outlined" startIcon={<AddCircleIcon />} sx={{textTransform: 'none'}} onClick={handleClick}>
@@ -95,7 +97,7 @@ function TodoList() {
             const filteredTodos = todos.filter((todo) => todo.status === status.value);
             const columnColor = status.value === 'todo' ? 'lightpink' : status.value === 'done' ? 'lightgreen' : 'lightyellow';
             return (
-              <Grid key={status.value} item  xs={4} sx={{justifyContent: 'center', pb: '20px'}}>
+              <Grid key={status.value} sx={{justifyContent: 'center', pb: '20px', xs: 4}}>
                 <Column
                   columnTitle={status.label}
                   columnColor={columnColor}
