@@ -79,8 +79,6 @@ function TodoList() {
     })
   }, [])
 
-  console.log(todos)
-
   return (
     <Box sx={{display: 'flex', height: '100vh', alignItems: 'flex-start', justifyContent: 'center'}}>
       <Grid container component={Paper} sx={{width: '800px', justifyContent: 'center'}}>

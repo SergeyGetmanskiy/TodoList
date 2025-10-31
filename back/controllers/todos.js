@@ -22,7 +22,7 @@ module.exports.createTodo = (req, res, next) => {
 };
 
 module.exports.deleteTodo = (req, res, next) => {
-  Todo.findByIdAndRemove(req.params.todoId)
+  Todo.findByIdAndDelete(req.params.todoId)
     .then((todo) => {
       if (!todo) {
         return Promise.reject(new NotFoundError('Todo not found'));
